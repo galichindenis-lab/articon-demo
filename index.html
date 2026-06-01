@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTICON DENTAL — Кабинет лаборатории · демо</title>
+<style>
+/* ============================================================
+   БРЕНД ARTICON DENTAL (премиум цифровая лаборатория)
+   Цвета — временные, под их фирстиль меняются в :root.
+   ============================================================ */
+:root{
+  --brand:        #1763d8;   /* фирменный синий ARTICON */
+  --brand-dark:   #1149a8;
+  --brand-light:  #e8f0fd;
+  --navy:         #13213f;   /* премиальный тёмно-синий */
+  --accent:       #13213f;
+  --orange:       #f5841f;   /* акцент логотипа (значок power) */
+
+  --ink:          #13213f;
+  --muted:        #65707f;
+  --line:         #e4e8ee;
+  --bg:           #f4f7f9;
+  --card:         #ffffff;
+  --ok:           #1f9d6b;
+  --warn:         #d98a25;
+  --info:         #2f7fd1;
+  --danger:       #d6533f;
+
+  --radius:       14px;
+  --shadow:       0 1px 2px rgba(21,35,62,.06), 0 8px 24px rgba(21,35,62,.07);
+  --shadow-lg:    0 12px 40px rgba(21,35,62,.18);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit;font-size:14px}
+.hidden{display:none !important}
+a{color:var(--brand);text-decoration:none}
+
+/* ---------- ЛОГОТИП ARTICON (wordmark + значок power вместо «O») ---------- */
+.brandmark{display:flex;align-items:center;gap:0}
+.brandmark .wm{font-weight:800;font-size:20px;letter-spacing:2px;line-height:1;color:var(--navy);display:inline-flex;align-items:center;gap:1px}
+.brandmark small{display:block;font-weight:600;font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+/* значок power (заменяет «O» в ARTICON) */
+.pwr{position:relative;display:inline-block;width:.72em;height:.72em;border:2.5px solid var(--brand);border-radius:50%;margin:0 .04em;vertical-align:middle}
+.pwr::before{content:"";position:absolute;left:50%;top:-.16em;transform:translateX(-50%);width:2.5px;height:.42em;background:var(--orange);border-radius:2px}
+.pwr.lt{border-color:#fff}
+.pwr.lt::before{background:var(--orange)}
+
+/* ---------- ШАПКА ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;padding:0 22px;height:64px}
+.nav{display:flex;gap:4px;margin-left:10px}
+.nav button{padding:8px 14px;border-radius:9px;color:var(--muted);font-weight:600;font-size:14px}
+.nav button:hover{background:var(--bg);color:var(--ink)}
+.nav button.active{background:var(--brand-light);color:var(--brand-dark)}
+.spacer{flex:1}
+.rolepill{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 13px}
+.rolepill .who{font-size:13px;font-weight:700;line-height:1.1}
+.rolepill .who span{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.switch{font-size:12px;color:var(--brand);font-weight:700;padding:6px 10px;border-radius:8px;border:1px solid var(--brand-light)}
+.switch:hover{background:var(--brand-light)}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1100px;margin:0 auto;padding:26px 22px 80px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.page-head h1{font-size:25px;margin:0 0 3px;letter-spacing:-.5px}
+.page-head p{margin:0;color:var(--muted);font-size:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-weight:700;font-size:14px;transition:.15s}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(23,99,216,.28)}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-sm{padding:8px 13px;font-size:13px}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.kpi .v{font-size:27px;font-weight:800;letter-spacing:-.5px}
+.kpi .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+.kpi .t{font-size:11.5px;font-weight:700;margin-top:7px;display:inline-block;padding:2px 8px;border-radius:6px}
+.t.up{background:#e7f6ee;color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- LIST ---------- */
+.list{display:flex;flex-direction:column}
+.list .row{display:grid;grid-template-columns:100px 1fr 180px 150px 140px;gap:14px;align-items:center;
+  padding:15px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
+.list .row:last-child{border-bottom:none}
+.list .row:hover{background:var(--brand-light)}
+.list .head{background:#fafcfc;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;cursor:default}
+.list .head:hover{background:#fafcfc}
+.num{font-weight:800;color:var(--brand-dark)}
+.pt-name{font-weight:700;font-size:14.5px}
+.pt-sub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.b-new{background:#eef4fb;color:var(--info)}
+.b-prog{background:#fff4e3;color:var(--warn)}
+.b-appr{background:#eaf0fb;color:#3a63b5}
+.b-ready{background:#e7f6ee;color:var(--ok)}
+.b-done{background:#eef1f2;color:var(--muted)}
+.b-1day{background:#fde9ee;color:#d6395f}
+.tag1day{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#d6395f;background:#fde9ee;border-radius:6px;padding:2px 7px;margin-left:6px}
+
+/* ---------- FORM ---------- */
+.form-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-light)}
+.section-title{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--navy);
+  margin:0 0 14px;padding:7px 12px;border-radius:7px;display:flex;align-items:center;gap:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.optgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-bottom:4px}
+.optgrid label{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;cursor:pointer}
+.optgrid input{width:16px;height:16px;accent-color:var(--brand)}
+.smilecloud{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border:1.5px solid var(--brand-light);border-radius:11px;background:var(--brand-light);font-size:13.5px;cursor:pointer}
+.smilecloud input{width:17px;height:17px;accent-color:var(--brand)}
+.smilecloud em{color:var(--brand-dark);font-style:normal;font-weight:700}
+/* ---------- НАПРАВЛЕНИЯ (табы новой заявки) ---------- */
+.dirtabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.dirtab{display:flex;align-items:center;gap:9px;padding:11px 15px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:700;font-size:13.5px;color:var(--muted);transition:.15s}
+.dirtab .di{font-size:18px;line-height:1}
+.dirtab small{display:block;font-size:11px;font-weight:600;color:#9aa4b1;margin-top:1px}
+.dirtab:hover{border-color:var(--brand);color:var(--ink)}
+.dirtab.on{border-color:var(--brand);background:var(--brand-light);color:var(--brand-dark);box-shadow:0 3px 10px rgba(23,99,216,.14)}
+.dirtab.on small{color:var(--brand-dark);opacity:.7}
+.hint{font-size:12px;color:var(--muted);margin:10px 0 0;line-height:1.5}
+.hint b{color:var(--brand-dark)}
+/* FDI-пилюли (выбор зубов для ортодонтии/хирургии) */
+.fdi-pills{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 2px}
+.fp{width:30px;height:30px;border:1px solid var(--line);border-radius:7px;font-size:12px;font-weight:700;color:var(--muted);background:#fff;transition:.1s}
+.fp:hover{border-color:var(--brand)}
+.fp.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.fp.gap{visibility:hidden}
+.triseg{display:flex;gap:6px;flex-wrap:wrap}
+.triseg label{flex:1;min-width:84px;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border:1px solid var(--line);border-radius:8px;padding:7px 9px;cursor:pointer}
+.triseg input{accent-color:var(--brand)}
+.qcsign{display:flex;align-items:center;gap:9px;margin-top:14px;padding:10px 13px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font-size:12.5px;color:var(--muted)}
+.qcsign b{color:var(--ink)}
+
+/* ---------- TOOTH CHART ---------- */
+.codes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.code{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;font-weight:600;background:#fff}
+.code:hover{border-color:var(--brand)}
+.code.sel{background:var(--brand);color:#fff;border-color:var(--brand)}
+.code b{font-weight:900;width:16px;text-align:center}
+.tooth-wrap{background:linear-gradient(180deg,#fafcff,#eef3fd);border:1px solid var(--line);border-radius:12px;padding:16px 10px}
+.tooth-row{display:flex;justify-content:center;gap:4px;margin:4px 0;flex-wrap:nowrap}
+.tooth{width:32px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.tooth .crown{width:28px;height:32px;border:1.5px solid #c6d3d6;border-radius:7px 7px 10px 10px;background:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--brand-dark);transition:.1s}
+.tooth:hover .crown{border-color:var(--brand);transform:translateY(-2px)}
+.tooth.has .crown{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 8px rgba(23,99,216,.3)}
+.tooth .n{font-size:9.5px;color:var(--muted)}
+.tooth.has .n{color:var(--brand-dark);font-weight:800}
+.midline{height:1px;background:var(--line);margin:11px 18px;position:relative}
+.midline span{position:absolute;left:50%;top:-9px;transform:translateX(-50%);background:#f1f5fd;padding:0 8px;font-size:10px;color:var(--muted)}
+.sel-summary{margin-top:13px;padding:12px;border:1px dashed var(--brand);border-radius:10px;background:var(--brand-light);font-size:13px;min-height:42px}
+.chip-t{display:inline-block;background:#fff;border:1px solid var(--brand);color:var(--brand-dark);border-radius:6px;padding:2px 8px;margin:3px 4px 0 0;font-size:12px;font-weight:700}
+
+/* ---------- DETAIL ---------- */
+.detail-grid{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--line)}
+.timeline li:last-child{border-left-color:transparent;padding-bottom:0}
+.timeline li::before{content:"";position:absolute;left:-7px;top:1px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--line)}
+.timeline li.done::before{background:var(--ok);border-color:var(--ok)}
+.timeline li.cur::before{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-light)}
+.timeline .tl-t{font-weight:700;font-size:14px}
+.timeline .tl-d{font-size:12px;color:var(--muted)}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;gap:10px}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--muted)} .kv .v{font-weight:700;text-align:right}
+.checklist{list-style:none;margin:0;padding:0;font-size:13.5px}
+.checklist li{display:flex;align-items:center;gap:9px;padding:6px 0}
+.checklist input{width:16px;height:16px;accent-color:var(--brand)}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;padding:4px}
+.msg{max-width:82%;padding:9px 13px;border-radius:13px;font-size:13.5px;line-height:1.4}
+.msg .m-who{font-size:11px;font-weight:700;opacity:.7;margin-bottom:2px}
+.msg.them{background:var(--bg);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.me .m-who{color:#cfe0fb}
+.chat-input{display:flex;gap:8px;margin-top:12px}
+.chat-input input{flex:1;padding:10px 13px;border:1px solid var(--line);border-radius:10px}
+.file-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:9px;font-size:13px;font-weight:600;margin:4px 6px 4px 0}
+.file-chip .ic{width:26px;height:26px;border-radius:6px;background:var(--brand-light);color:var(--brand);display:grid;place-items:center;font-size:10px;font-weight:800}
+.file-chip .v3d{margin-left:4px;font-size:11px;color:var(--brand);font-weight:800;border:1px solid var(--brand-light);padding:2px 6px;border-radius:5px}
+
+/* ---------- LOGIN / WELCOME ---------- */
+.login{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.login-art{background:linear-gradient(150deg,#0c1830,var(--navy) 45%,var(--brand-dark));color:#fff;padding:52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.login-art::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(23,99,216,.18);top:-120px;right:-120px}
+.login-art::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-100px;left:-60px}
+.login-art .lg{display:flex;align-items:center;gap:12px;position:relative}
+.login-art .lg .wm{font-weight:800;font-size:25px;letter-spacing:2.5px;display:inline-flex;align-items:center;gap:1px;color:#fff}
+.login-art .lg small{display:block;font-weight:600;font-size:9px;letter-spacing:2.5px;opacity:.8;margin-top:4px;color:#fff}
+.login-art h2{font-size:33px;line-height:1.15;letter-spacing:-.8px;margin:20px 0 14px;position:relative;max-width:470px}
+.login-art p.lede{font-size:15px;opacity:.92;max-width:420px;position:relative;margin:0 0 24px}
+.feat{display:flex;flex-direction:column;gap:13px;position:relative}
+.feat div{display:flex;gap:12px;align-items:flex-start;font-size:14px}
+.feat .fi{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.14);display:grid;place-items:center;flex-shrink:0;font-size:15px}
+.lstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;margin-top:26px}
+.lstats div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:11px;padding:11px 12px}
+.lstats b{display:block;font-size:20px;font-weight:800;letter-spacing:-.5px;color:#fff}
+.lstats span{font-size:10.5px;opacity:.82;color:#fff}
+.login-art .credit{position:relative;font-size:12.5px;opacity:.75}
+.login-form{display:flex;flex-direction:column;justify-content:center;padding:52px;max-width:520px}
+.login-form h3{font-size:24px;margin:0 0 6px;letter-spacing:-.4px}
+.login-form .sub{color:var(--muted);margin:0 0 26px}
+.role-pick{display:flex;flex-direction:column;gap:12px}
+.role-card{display:flex;align-items:center;gap:15px;padding:18px;border:1.5px solid var(--line);border-radius:14px;text-align:left;transition:.15s;background:#fff}
+.role-card:hover{border-color:var(--brand);box-shadow:var(--shadow);transform:translateY(-1px)}
+.role-card .ri{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.role-card .ri.doc{background:var(--brand-light);color:var(--brand)}
+.role-card .ri.lab{background:#e9ebf1;color:var(--navy)}
+.role-card .rt{font-weight:800;font-size:16px}
+.role-card .rs{font-size:13px;color:var(--muted);margin-top:2px}
+.role-card .arr{margin-left:auto;color:var(--muted);font-size:20px}
+.demo-note{margin-top:24px;padding:13px 15px;background:var(--brand-light);border-radius:10px;font-size:12.5px;color:var(--brand-dark)}
+
+.welcome{position:fixed;inset:0;z-index:300;background:linear-gradient(150deg,#0c1830,var(--navy) 45%,var(--brand-dark));display:grid;place-items:center;padding:22px;overflow:auto}
+.welcome-card{background:#fff;border-radius:20px;max-width:600px;width:100%;padding:38px 40px;box-shadow:0 30px 80px rgba(5,15,30,.5);animation:wpop .35s ease}
+@keyframes wpop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.welcome-card .wlogo{display:flex;align-items:center;gap:11px}
+.welcome-card .wlogo .wm{font-weight:800;font-size:24px;letter-spacing:2.5px;color:var(--navy);display:inline-flex;align-items:center;gap:1px}
+.welcome-card .wlogo small{display:block;font-weight:600;font-size:8.5px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.welcome-card h2{font-size:25px;letter-spacing:-.5px;margin:20px 0 6px}
+.welcome-card .lede{color:var(--muted);font-size:15px;margin:0 0 22px;line-height:1.5}
+.welcome-steps{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:12px}
+.welcome-steps li{display:flex;gap:13px;align-items:flex-start;font-size:14.5px;line-height:1.45}
+.welcome-steps .sn{width:26px;height:26px;border-radius:8px;background:var(--brand-light);color:var(--brand-dark);font-weight:800;display:grid;place-items:center;flex-shrink:0;font-size:13px}
+.welcome-card .wbtn{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:#fff;font-weight:700;font-size:15.5px;padding:14px 26px;border-radius:12px;box-shadow:0 6px 18px rgba(23,99,216,.35);transition:.15s}
+.welcome-card .wbtn:hover{background:var(--brand-dark)}
+.welcome-card .wsign{margin-top:20px;font-size:12.5px;color:var(--muted)}
+
+/* ---------- MISC ---------- */
+.banner{background:linear-gradient(100deg,var(--brand-light),#fff);border:1px solid var(--brand-light);border-left:4px solid var(--brand);
+  border-radius:12px;padding:14px 17px;margin-bottom:20px;display:flex;gap:13px;align-items:center}
+.banner.hot{background:linear-gradient(100deg,#fde9ee,#fff);border-color:#fbd5de;border-left-color:#d6395f}
+.banner .bi{font-size:22px}
+.banner b{color:var(--brand-dark)}
+.banner.hot b{color:#d6395f}
+.banner p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;
+  padding:14px 22px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow-lg);opacity:0;transition:.35s;z-index:200;display:flex;gap:10px;align-items:center;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast .ti{color:#9ec5ff}
+.footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;line-height:1.6}
+@media(max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .form-grid,.detail-grid{grid-template-columns:1fr}
+  .login{grid-template-columns:1fr}.login-art{display:none}
+  .list .row{grid-template-columns:80px 1fr 120px;gap:10px}
+  .list .row .col-tech,.list .row .col-date,.list .head .col-tech,.list .head .col-date{display:none}
+  .nav{display:none}
+  .tooth{width:26px}.tooth .crown{width:23px;height:27px}
+  .welcome-card{padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ПРИВЕТСТВИЕ ============ -->
+<div id="welcome" class="welcome">
+  <div class="welcome-card">
+    <div class="wlogo"><div><span class="wm">ARTIC<span class="pwr"></span>N</span><small>Dental Digital Solutions</small></div></div>
+    <h2>Здравствуйте!</h2>
+    <p class="lede">Это демо онлайн-кабинета для ARTICON DENTAL — единое окно, где клиника оформляет заказы, отслеживает производство и общается с лабораторией. Посмотрите сами, буквально пара минут.</p>
+    <ul class="welcome-steps">
+      <li><span class="sn">1</span><div>Выберите роль <b>«Я врач»</b> — это вид со стороны клиники-заказчика.</div></li>
+      <li><span class="sn">2</span><div>Нажмите <b>«Новый заказ»</b>: попробуйте экспресс-услугу <b>easyCROWN (коронка за 1 день)</b> или соберите работу по формуле зубов.</div></li>
+      <li><span class="sn">3</span><div>Откройте заказ — статус, чат, файлы и 3D-сканы. Затем <b>«Сменить роль»</b> — посмотрите кабинет со стороны лаборатории и фрезцентра.</div></li>
+    </ul>
+    <button class="wbtn" onclick="startDemo()">Открыть демо ARTICON →</button>
+    <div class="wsign">Данные пациентов — тестовые. Цены и бренд приведены к фактическим по материалам Articon; финально подгоняются под ваш прайс и фирстиль.</div>
+  </div>
+</div>
+
+<!-- ============ ВХОД ============ -->
+<div id="screen-login" class="login">
+  <div class="login-art">
+    <div class="lg"><div><span class="wm">ARTIC<span class="pwr lt"></span>N</span><small>Dental Digital Solutions</small></div></div>
+    <div>
+      <h2>Цифровая лаборатория — в одном кабинете</h2>
+      <p class="lede">Заказы, фрезцентр, статусы и файлы в едином окне. От приёма скана до готовой коронки — прозрачно для клиники и для производства.</p>
+      <div class="feat">
+        <div><div class="fi">⚡</div><div><b>easyCROWN</b> — коронка за 1 день: заявка, скан и контроль срока «готово к завтра» прямо в кабинете</div></div>
+        <div><div class="fi">🎨</div><div><b>SmileCloud</b> — AI-дизайн улыбки и видео «до/после», авто-STL для лаборатории прямо из заказа</div></div>
+        <div><div class="fi">🦷</div><div>Электронный заказ с формулой зубов, цветом и фото — без потерь и уточняющих звонков</div></div>
+        <div><div class="fi">🖥️</div><div>Принимаем сканы с любого сканера, 3D-просмотр STL прямо в заказе</div></div>
+        <div><div class="fi">📍</div><div>Москва и Санкт-Петербург — единая система для всех клиник-партнёров</div></div>
+      </div>
+      <div class="lstats">
+        <div><b>10+</b><span>лет на рынке</span></div>
+        <div><b>160</b><span>специалистов</span></div>
+        <div><b>~48 000</b><span>работ за 2024</span></div>
+        <div><b>МСК+СПб</b><span>два города</span></div>
+      </div>
+    </div>
+    <div class="credit">ARTICON DENTAL · Москва, Варшавское ш. 33с12 · СПб, Чкаловский пр. 50Б · lab@articon.pro</div>
+  </div>
+  <div class="login-form">
+    <h3>Вход в кабинет</h3>
+    <p class="sub">Демонстрационная версия. Выберите роль, чтобы посмотреть интерфейс.</p>
+    <div class="role-pick">
+      <button class="role-card" onclick="login('doctor')">
+        <div class="ri doc">🩺</div>
+        <div><div class="rt">Я врач / клиника</div><div class="rs">Оформляю заказы и слежу за статусом</div></div>
+        <div class="arr">→</div>
+      </button>
+      <button class="role-card" onclick="login('lab')">
+        <div class="ri lab">🏭</div>
+        <div><div class="rt">Я сотрудник ARTICON</div><div class="rs">Приём, CAD/CAM, фрезцентр, производство, счета</div></div>
+        <div class="arr">→</div>
+      </button>
+    </div>
+    <div class="demo-note">💡 Интерактивный прототип под ARTICON DENTAL. Услуги и easyCROWN — реальные. Точный прайс и фирстиль подставляются по вашим материалам.</div>
+  </div>
+</div>
+
+<!-- ============ ПРИЛОЖЕНИЕ ============ -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div class="brandmark"><div><span class="wm">ARTIC<span class="pwr"></span>N</span><small>Dental Digital Solutions</small></div></div>
+    <div class="nav" id="nav"></div>
+    <div class="spacer"></div>
+    <div class="rolepill">
+      <button class="switch" onclick="logout()">Сменить роль</button>
+      <div class="who" id="who"></div>
+      <div class="avatar" id="avatar"></div>
+    </div>
+  </div>
+  <div class="wrap" id="content"></div>
+</div>
+
+<div class="toast" id="toast"><span class="ti">✓</span><span id="toast-msg"></span></div>
+
+<script>
+/* ====================== ДАННЫЕ ====================== */
+const STATUS={ new:{label:"Новый",cls:"b-new"}, appr:{label:"На согласовании",cls:"b-appr"},
+  prog:{label:"В производстве",cls:"b-prog"}, ready:{label:"Готов · доставка",cls:"b-ready"}, done:{label:"Завершён",cls:"b-done"} };
+/* услуги Articon (easyCROWN — реальная цена; прочие — ориентир, заменяются прайсом) */
+const SERVICES=[
+  ["easyCROWN — коронка за 1 день","4 900 ₽"],
+  ["Циркониевая коронка (CAD/CAM)","по прайсу"],
+  ["Коронка E.max / прессованная","по прайсу"],
+  ["Металлокерамическая коронка","по прайсу"],
+  ["Временная коронка PMMA (CAD/CAM)","по прайсу"],
+  ["Вкладка / накладка","по прайсу"],
+  ["Мостовидная конструкция","по прайсу"],
+  ["Коронка/абатмент на импланте","по прайсу"],
+  ["Хирургический шаблон (печать)","по прайсу"],
+  ["Сплинт / каппа / депрограмматор","по прайсу"],
+  ["Съёмный / бюгельный протез","по прайсу"],
+  ["Ортодонтия · элайнеры (EUROKAPPA)","по прайсу"],
+  ["Съёмный пластиночный аппарат (детский)","по прайсу"],
+  ["Функциональная эстетика · SmileCloud","мастер-прайс"],
+  ["Индивидуальная ложка (3D-печать)","по прайсу"],
+];
+/* направления заказа — каждое со своим реальным заказ-нарядом Articon */
+const DIRS=[
+  ["ortho",   "🦷","Ортопедия / easyCROWN","коронки · мосты · импланты"],
+  ["surgery", "🪛","Хирургический шаблон","навигация · импланты"],
+  ["aligners","😀","Элайнеры","ортодонтия · EUROKAPPA"],
+  ["plate",   "🧒","Съёмный аппарат","детская ортодонтия"],
+];
+const IMPLANT_SYS=["Straumann","Nobel","Dentium","Astra Tech EV","Ankylos","MIS","Cortex","Osstem","Другая"];
+const NAV_KITS=["RealGuide","OneGuide","Straumann","Dentium","Nobel","Cortex","Ankylos","Astra Tech EV","MIS","Пилотный (2.0)"];
+const SHADES=["A1","A2","A3","A3.5","A4","B1","B2","B3","B4","C1","C2","C3","C4","D2","D3","D4"];
+const TECHS=["CAD: Дмитрий","Фрезцентр: Сергей","Керамист: Анна"];
+const CODES=[["C","коронка"],["V","винир"],["I","имплант"],["T","временная"],["O","вкладка/накладка"],["P","культевая"],["X","промежут."],["W","wax-up"]];
+const SHIP=["Слепки / модели","Регистраты прикуса","Модели-антагонисты","Мастер-модели","Абатмент","Винты","Хирургический шаблон","STL-файлы переданы"];
+
+let orders=[
+  {id:"AR-3071", first:"Михаил", last:"Орлов", clinic:"Articon Clinic", city:"Москва", doctor:"Лебедев К.А.",
+   service:"easyCROWN — коронка за 1 день", teeth:{36:"C"}, shadeFrom:"A2", shade:"A2", material:"Диоксид циркония (monolith)",
+   implant:"—", express:true, status:"prog", tech:"Фрезцентр: Сергей", date:"01.06", ready:"02.06 (1 день)", price:"4 900 ₽",
+   cons:"Полная анатомия · одиночка · цементная фиксация · контакт точечный",
+   chat:[{who:"ARTICON · Сергей",me:false,t:"Скан принят, easyCROWN в работе. Готово к завтра по гарантии."}],
+   files:[{n:"scan_36_arch.stl",d3:true},{n:"antagonist.stl",d3:true}]},
+  {id:"AR-3070", first:"Ольга", last:"Кузнецова", clinic:"Дентал-Студия", city:"Москва", doctor:"Громова И.С.",
+   service:"Коронка/абатмент на импланте", teeth:{46:"I"}, shadeFrom:"A3", shade:"A3", material:"Цирконий + Ti-base",
+   implant:"винтовая · ø4.5 · Straumann", express:false, status:"appr", tech:"—", date:"30.05", ready:"04.06", price:"по прайсу",
+   cons:"Винтовая фиксация · полная анатомия · плечо круговое · искусственная десна",
+   chat:[{who:"ARTICON · Дмитрий",me:false,t:"Смоделировали винтовую на Straumann. Посмотрите конструкцию на согласование."}],
+   files:[{n:"scan_upper.stl",d3:true},{n:"scanbody.stl",d3:true},{n:"design.html",d3:true}]},
+  {id:"AR-3069", first:"Павел", last:"Зорин", clinic:"СПб · ДентаЛайн", city:"СПб", doctor:"Никитин А.В.",
+   service:"Хирургический шаблон (печать)", teeth:{14:"I",24:"I"}, shadeFrom:"—", shade:"—", material:"Фотополимер (печать)",
+   implant:"планирование по КТ", express:false, status:"ready", tech:"CAD: Дмитрий", date:"27.05", ready:"31.05", price:"по прайсу",
+   chat:[{who:"ARTICON · Дмитрий",me:false,t:"Шаблон напечатан, простерилизован, отправляем курьером в СПб."}],
+   files:[{n:"plan_CT.stl",d3:true},{n:"guide.stl",d3:true}]},
+  {id:"AR-3068", first:"Ирина", last:"Соболева", clinic:"Articon Clinic", city:"Москва", doctor:"Лебедев К.А.",
+   service:"Сплинт / каппа", teeth:{}, shadeFrom:"—", shade:"прозрачный", material:"PMMA (фрезеровка)",
+   implant:"—", express:false, status:"new", tech:"—", date:"01.06", ready:"—", price:"по прайсу",
+   chat:[], files:[{n:"bite_scan.stl",d3:true}]},
+  {id:"AR-3067", first:"Денис", last:"Романов", clinic:"Дентал-Студия", city:"Москва", doctor:"Громова И.С.",
+   service:"easyCROWN — коронка за 1 день", teeth:{25:"C"}, shadeFrom:"A2", shade:"A2", material:"Диоксид циркония (monolith)",
+   implant:"—", express:true, status:"done", tech:"Фрезцентр: Сергей", date:"24.05", ready:"25.05 (1 день)", price:"4 900 ₽",
+   chat:[{who:"ARTICON · Сергей",me:false,t:"easyCROWN сдан в срок. Спасибо!"}],
+   files:[{n:"scan_25.stl",d3:true}]},
+  {id:"AR-3066", first:"Алина", last:"Серова", clinic:"Articon Clinic", city:"Москва", doctor:"Лебедев К.А.",
+   service:"Ортодонтия · элайнеры (EUROKAPPA)", teeth:{}, shadeFrom:"—", shade:"—", material:"Элайнеры EUROKAPPA",
+   implant:"—", express:false, status:"appr", tech:"CAD: Дмитрий", date:"29.05", ready:"set-up на согласовании", price:"по прайсу",
+   cons:"Обе челюсти · сепарация при необходимости · согласование set-up в Telegram",
+   chat:[{who:"ARTICON · Ortho",me:false,t:"Set-up готов, отправили в Telegram на согласование. Аттачменты по плану."}],
+   files:[{n:"setup_v1.stl",d3:true},{n:"plan_3d.html",d3:true}]},
+  {id:"AR-3065", first:"Тимур", last:"Гасанов", clinic:"ДентаЛайн", city:"СПб", doctor:"Никитин А.В.",
+   service:"Съёмный пластиночный аппарат (детский)", teeth:{}, shadeFrom:"—", shade:"—", material:"Базисная пластмасса",
+   implant:"—", express:false, status:"new", tech:"—", date:"01.06", ready:"—", price:"по прайсу",
+   cons:"Винт расширяющий · пружина рукообразная · накусочная площадка · цвет синий + блёстки",
+   chat:[], files:[{n:"jaw_scan_upper.stl",d3:true}]},
+];
+
+let role="doctor", cur=null, activeNav="orders";
+
+function startDemo(){ document.getElementById("welcome").classList.add("hidden"); }
+function login(r){
+  role=r;
+  document.getElementById("screen-login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  const who=document.getElementById("who"), av=document.getElementById("avatar");
+  if(r==="doctor"){ who.innerHTML="К. А. Лебедев<span>Врач · Articon Clinic, Москва</span>"; av.textContent="КЛ"; }
+  else            { who.innerHTML="Дмитрий (CAD)<span>Менеджер · ARTICON DENTAL</span>"; av.textContent="AR"; }
+  activeNav="orders"; render(); window.scrollTo(0,0);
+}
+function logout(){ document.getElementById("app").classList.add("hidden"); document.getElementById("screen-login").classList.remove("hidden"); cur=null; }
+
+function buildNav(){
+  const nav=document.getElementById("nav");
+  const items=role==="doctor"
+    ? [["orders","Мои заказы"],["new","Новый заказ"],["invoices","Счета"]]
+    : [["orders","Заказы"],["board","Производство"],["clients","Клиники"],["invoices","Счета"]];
+  nav.innerHTML=items.map(([k,l])=>`<button class="${activeNav===k?'active':''}" onclick="go('${k}')">${l}</button>`).join("");
+}
+function go(k){ activeNav=k; cur=null; render(); window.scrollTo(0,0); }
+function render(){
+  buildNav();
+  const c=document.getElementById("content");
+  if(cur){ c.innerHTML=viewDetail(cur); return; }
+  if(activeNav==="orders") c.innerHTML=viewOrders();
+  else if(activeNav==="new") c.innerHTML=viewNew();
+  else if(activeNav==="board") c.innerHTML=viewBoard();
+  else if(activeNav==="invoices") c.innerHTML=viewInvoices();
+  else if(activeNav==="clients") c.innerHTML=viewClients();
+}
+function kpis(){
+  const open=orders.filter(o=>o.status!=="done").length;
+  const exp=orders.filter(o=>o.express&&o.status!=="done").length;
+  const ready=orders.filter(o=>o.status==="ready").length;
+  return `<div class="kpis">
+    <div class="kpi"><div class="v">${open}</div><div class="l">Активных заказов</div><div class="t up">+3 за неделю</div></div>
+    <div class="kpi"><div class="v">${exp}</div><div class="l">easyCROWN в работе</div></div>
+    <div class="kpi"><div class="v">${ready}</div><div class="l">Готовы к доставке</div></div>
+    <div class="kpi"><div class="v">99,2%</div><div class="l">Сдано в срок</div><div class="t up">SLA «готово к завтра»</div></div>
+  </div>`;
+}
+function teethStr(o){ const k=Object.keys(o.teeth); return k.length?k.map(t=>t+"·"+o.teeth[t]).join(", "):"—"; }
+function rowHtml(o){
+  const s=STATUS[o.status];
+  return `<div class="row" onclick="openOrder('${o.id}')">
+    <div class="num">${o.id}</div>
+    <div><div class="pt-name">${o.last} ${o.first[0]}.${o.express?'<span class="tag1day">⚡ 1 день</span>':''}</div><div class="pt-sub">${o.service} · ${teethStr(o)}</div></div>
+    <div class="col-tech pt-sub">${role==='doctor'? o.clinic+' · '+o.city : (o.tech==='—'?'<span style="color:#bbb">не назначен</span>':o.tech)}</div>
+    <div class="col-date pt-sub">сдача ${o.ready}</div>
+    <div><span class="badge ${o.express&&o.status==='prog'?'b-1day':s.cls}">${s.label}</span></div>
+  </div>`;
+}
+function viewOrders(){
+  return kpis()+`
+  <div class="banner hot"><span class="bi">⚡</span><div><b>easyCROWN — коронка за 1 день, 4 900 ₽</b><p>100% гарантия: готово к следующему дню или возврат денег. Оформляется в один клик в новом заказе.</p></div></div>
+  <div class="page-head">
+    <div><h1>${role==='doctor'?'Мои заказы':'Заказы в работе'}</h1><p>${role==='doctor'?'Articon Clinic · Лебедев К.А.':'Все заказы клиник · Москва и СПб'}</p></div>
+    ${role==='doctor'?'<button class="btn btn-primary" onclick="go(\'new\')">＋ Новый заказ</button>':''}
+  </div>
+  <div class="card list">
+    <div class="row head"><div>№</div><div>Пациент / работа</div><div class="col-tech">${role==='doctor'?'Клиника':'Исполнитель'}</div><div class="col-date">Срок</div><div>Статус</div></div>
+    ${orders.map(rowHtml).join("")}
+  </div>${footer()}`;
+}
+function openOrder(id){ cur=orders.find(o=>o.id===id); render(); window.scrollTo(0,0); }
+function timelineHtml(o){
+  const order=["new","appr","prog","ready","done"];
+  const labels={new:["Заказ создан",o.date],appr:["Согласование конструкции",""],prog:["В производстве",o.tech!=="—"?o.tech:""],ready:["Готов · доставка",o.ready!=="—"?"к "+o.ready:""],done:["Завершён",""]};
+  const ci=order.indexOf(o.status);
+  return `<ul class="timeline">${order.map((k,i)=>{const cls=i<ci?"done":(i===ci?"cur":"");return `<li class="${cls}"><div class="tl-t">${labels[k][0]}</div><div class="tl-d">${labels[k][1]||(i>ci?'ожидается':'')}</div></li>`;}).join("")}</ul>`;
+}
+function viewDetail(o){
+  const s=STATUS[o.status];
+  const labActions=role==='lab'?`
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${o.status==='new'?`<button class="btn btn-primary btn-sm" onclick="advance()">Принять в работу</button>`:''}
+      ${o.status==='appr'?`<button class="btn btn-primary btn-sm" onclick="advance()">Запустить производство</button>`:''}
+      ${o.status==='prog'?`<button class="btn btn-primary btn-sm" onclick="advance()">Отметить готовым</button>`:''}
+      ${o.status==='ready'?`<button class="btn btn-navy btn-sm" onclick="advance()">Завершить заказ</button>`:''}
+      <button class="btn btn-ghost btn-sm" onclick="assignTech()">Назначить исполнителя</button>
+    </div>`:(o.status==='appr'?`<button class="btn btn-primary btn-sm" onclick="approve()">✓ Согласовать конструкцию</button>`:'');
+  const shipBlock=role==='lab'?`<div class="card" style="padding:20px"><div class="section-title">Комплектация к отправке</div><ul class="checklist">${SHIP.map(x=>`<li><input type="checkbox" onclick="toast('Отмечено: ${x}')"> ${x}</li>`).join("")}</ul></div>`:'';
+  return `
+  <div class="page-head">
+    <div>
+      <p style="margin-bottom:6px"><a onclick="go('orders')" style="cursor:pointer">← К списку заказов</a></p>
+      <h1>Заказ ${o.id} <span class="badge ${s.cls}" style="vertical-align:middle;margin-left:8px">${s.label}</span>${o.express?'<span class="tag1day" style="vertical-align:middle">⚡ easyCROWN · 1 день</span>':''}</h1>
+      <p>${o.last} ${o.first} · ${o.clinic} (${o.city})${role==='lab'?' · врач '+o.doctor:''}</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      ${o.status==='ready'?`<button class="btn btn-navy btn-sm" onclick="toast('Заявка курьеру создана')">🚚 Вызвать курьера</button>`:''}
+      <button class="btn btn-ghost btn-sm" onclick="toast('Печать заказ-наряда…')">🖨 Заказ-наряд</button>
+    </div>
+  </div>
+  <div class="detail-grid">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div class="card" style="padding:20px">
+        <div class="section-title">Формула зубов и параметры</div>
+        ${toothMini(o.teeth)}
+        <div class="kv"><span class="k">Вид работы</span><span class="v">${o.service}</span></div>
+        <div class="kv"><span class="k">Зубы (FDI)</span><span class="v">${teethStr(o)}</span></div>
+        <div class="kv"><span class="k">Материал</span><span class="v">${o.material}</span></div>
+        ${o.implant!=='—'?`<div class="kv"><span class="k">Имплант / план</span><span class="v">${o.implant}</span></div>`:''}
+        <div class="kv"><span class="k">Цвет зубов: исходный → требуемый</span><span class="v">${o.shadeFrom} → ${o.shade}</span></div>
+        ${o.cons?`<div class="kv"><span class="k">Параметры конструкции</span><span class="v">${o.cons}</span></div>`:''}
+        <div class="kv"><span class="k">Стоимость</span><span class="v" style="color:var(--brand-dark)">${o.price}</span></div>
+        <div style="margin-top:14px">${labActions}</div>
+      </div>
+      <div class="card" style="padding:20px"><div class="section-title">Файлы и сканы</div>
+        ${o.files.map(f=>`<span class="file-chip"><span class="ic">${f.n.split('.').pop().toUpperCase().slice(0,3)}</span>${f.n}${f.d3?'<span class="v3d" onclick="toast(\'Открываю 3D-просмотр…\')">3D ▸</span>':''}</span>`).join("")}
+      </div>
+      ${shipBlock}
+      <div class="card" style="padding:20px"><div class="section-title">История</div>${timelineHtml(o)}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div class="card" style="padding:20px"><div class="section-title">Чат по заказу</div>
+        <div class="chat" id="chat">${o.chat.length?o.chat.map(m=>`<div class="msg ${m.me?'me':'them'}"><div class="m-who">${m.who}</div>${m.t}</div>`).join(""):'<p style="color:var(--muted);font-size:13px">Сообщений пока нет. Напишите лаборатории…</p>'}</div>
+        <div class="chat-input"><input id="chatbox" placeholder="Сообщение…" onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-primary btn-sm" onclick="sendMsg()">➤</button></div>
+      </div>
+    </div>
+  </div>`;
+}
+function toothMini(teeth){
+  const k=Object.keys(teeth);
+  if(!k.length) return `<div style="color:var(--muted);font-size:13px;margin-bottom:14px">Работа без привязки к зубам (каппа/сплинт/модель).</div>`;
+  return `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+    ${k.map(t=>`<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:36px;height:40px;border-radius:7px 7px 10px 10px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:900;font-size:14px;box-shadow:0 3px 8px rgba(23,99,216,.3)">${teeth[t]}</div><div style="font-size:11px;color:var(--brand-dark);font-weight:700">${t}</div></div>`).join("")}
+    <div style="align-self:center;color:var(--muted);font-size:13px;margin-left:6px">буква — вид работы по зубу</div>
+  </div>`;
+}
+function sendMsg(){ const b=document.getElementById("chatbox"); if(!b.value.trim())return; cur.chat.push({who:role==='doctor'?'Вы':'ARTICON · Дмитрий',me:true,t:b.value.trim()}); b.value=""; render(); setTimeout(()=>{const c=document.getElementById("chat");if(c)c.scrollTop=9999;},50); }
+function advance(){ const n={new:"prog",appr:"prog",prog:"ready",ready:"done"}; cur.status=n[cur.status]||cur.status; toast("Статус обновлён · клиника уведомлена push-сообщением"); render(); }
+function approve(){ cur.status="prog"; toast("Конструкция согласована · запущена в производство"); render(); }
+function assignTech(){ cur.tech=TECHS[(cur.id.charCodeAt(5))%3]; toast("Исполнитель назначен: "+cur.tech); render(); }
+
+/* ---------- НОВЫЙ ЗАКАЗ (мультинаправленный) ---------- */
+let teethMap={}, activeCode="C", pickedShade="A2", activeDir="ortho";
+function toothChart(){
+  const q1=[18,17,16,15,14,13,12,11], q2=[21,22,23,24,25,26,27,28];
+  const q4=[48,47,46,45,44,43,42,41], q3=[31,32,33,34,35,36,37,38];
+  const trow=(arr)=>`<div class="tooth-row">${arr.map(n=>`<div class="tooth" id="t${n}" onclick="tgT(${n})"><div class="crown" id="c${n}"></div><div class="n">${(n+'').replace(/(\d)(\d)/,'$1.$2')}</div></div>`).join("")}</div>`;
+  return `<div class="tooth-wrap">${trow(q1)+trow(q2)}<div class="midline"><span>верхняя / нижняя</span></div>${trow(q4)+trow(q3)}</div>`;
+}
+function fdiPills(){
+  const top=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
+  const bot=[48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+  const row=(arr)=>`<div class="fdi-pills">${arr.map(n=>`<button class="fp" onclick="this.classList.toggle('on')">${n}</button>`).join("")}</div>`;
+  return row(top)+row(bot);
+}
+function tri(name){ return `<div class="triseg"><label><input type="radio" name="${name}">Да</label><label><input type="radio" name="${name}">Нет</label><label><input type="radio" name="${name}">По необходимости</label></div>`; }
+const QC=`<div class="qcsign">✔ Контроль качества — <b>Исаев Максим</b>, руководитель отдела</div>`;
+
+function dirLeft(d){
+  if(d==='ortho') return `
+    <div class="section-title">Вид работы по зубам</div>
+    <div class="codes" id="codes">${CODES.map(([c,l])=>`<button class="code ${c==='C'?'sel':''}" onclick="setCode('${c}',this)"><b>${c}</b>${l}</button>`).join("")}</div>
+    ${toothChart()}
+    <div class="sel-summary" id="selsum">Зубы не выбраны — выберите код выше и кликните по зубу</div>
+    <div class="section-title" style="margin-top:22px">Имплант / план (если есть)</div>
+    <div class="row2">
+      <div class="field" style="margin:0"><label>Фиксация</label><select><option>—</option><option>Цементная</option><option>Винтовая</option></select></div>
+      <div class="field" style="margin:0"><label>Система / диаметр</label><input placeholder="напр. Straumann ø4.5"></div>
+    </div>
+    <div class="section-title" style="margin-top:22px">Цвет</div>
+    <div class="row2">
+      <div class="field" style="margin:0"><label>Цвет культи</label><input placeholder="напр. ND2 / стандарт"></div>
+      <div class="field" style="margin:0"><label>Цвет зубов: исходный</label><input placeholder="напр. A3"></div>
+    </div>
+    <div class="field" style="margin:12px 0 0"><label>Цвет зубов: требуемый (VITA)</label><select onchange="pickedShade=this.value">${SHADES.map(s=>`<option ${s==='A2'?'selected':''}>${s}</option>`).join("")}</select></div>
+    <div class="section-title" style="margin-top:22px">Параметры конструкции</div>
+    <div class="optgrid">
+      <label><input type="checkbox"> Полная анатомия</label>
+      <label><input type="checkbox"> Нанесение</label>
+      <label><input type="checkbox"> Одиночки</label>
+      <label><input type="checkbox"> Мост</label>
+      <label><input type="checkbox"> Искусственная десна</label>
+      <label><input type="checkbox"> Гирлянда</label>
+    </div>
+    <div class="row2" style="margin-top:12px">
+      <div class="field" style="margin:0"><label>Плечо</label><select><option>—</option><option>Круговое</option><option>Вестибулярно</option></select></div>
+      <div class="field" style="margin:0"><label>Контактные пункты</label><select><option>—</option><option>Точечный</option><option>Плоскостной</option></select></div>
+    </div>
+    <label class="smilecloud"><input type="checkbox"> <span><b>SmileCloud</b> — AI-дизайн улыбки и видео «до/после» <em>(бесплатно в рамках мастер-прайса)</em></span></label>
+    <p class="hint">📷 Фото оттенка приложите к заказу. Скан — с любого сканера (полная дуга + антагонист в окклюзии). <b>⏱ Срок:</b> до 5 ед. — 7 р.д., от 6 ед. — 14 р.д. · easyCROWN — 1 день.</p>`;
+
+  if(d==='surgery') return `
+    <div class="section-title">Локализация имплантатов (FDI)</div>
+    ${toothChart()}
+    <div class="sel-summary" id="selsum">Отметьте зубы, где планируются импланты — кликните по формуле</div>
+    <div class="row2" style="margin-top:14px">
+      <div class="field" style="margin:0"><label>Производитель имплантов</label><select>${IMPLANT_SYS.map(s=>`<option>${s}</option>`).join("")}</select></div>
+      <div class="field" style="margin:0"><label>Линейка / диаметр</label><input placeholder="напр. BLX ø4.0"></div>
+    </div>
+    <div class="field" style="margin:12px 0 0"><label>Тип установки ДИ</label>
+      <div class="triseg"><label><input type="radio" name="dip">Крестально</label><label><input type="radio" name="dip">Субкрестально</label><label><input type="radio" name="dip">Супракрестально</label></div>
+    </div>
+    <div class="section-title" style="margin-top:22px">Навигационный набор</div>
+    <div class="optgrid">${NAV_KITS.map(k=>`<label><input type="checkbox"> ${k}</label>`).join("")}</div>
+    <div class="section-title" style="margin-top:22px">Параметры шаблона</div>
+    <div class="row2">
+      <div class="field" style="margin:0"><label>Тип шаблона</label><select><option>Последовательный</option><option>Разборный (при наличии условий)</option></select></div>
+      <div class="field" style="margin:0"><label>Втулки</label><select><option>Оригинал</option><option>ARTICON (при наличии)</option></select></div>
+    </div>
+    <div class="optgrid" style="margin-top:12px">
+      <label><input type="checkbox"> Откидывание лоскута</label>
+      <label><input type="checkbox"> Редукция гребня</label>
+      <label><input type="checkbox"> Параллельность имплантов</label>
+      <label><input type="checkbox"> Планируемая костная пластика</label>
+      <label><input type="checkbox"> Ограниченное открывание рта</label>
+      <label><input type="checkbox"> Доп. костная опора</label>
+    </div>
+    <div class="section-title" style="margin-top:22px">Немедленная нагрузка</div>
+    <div class="optgrid">
+      <label><input type="checkbox"> Заказ временной конструкции</label>
+      <label><input type="checkbox"> Только виртуальный Wax-Up</label>
+      <label><input type="checkbox"> Распечатать модель с Wax-Up</label>
+      <label><input type="checkbox"> Несъёмная / съёмная</label>
+    </div>
+    <p class="hint">🗓 <b>Шаблон — 2 рабочих дня</b> с момента подтверждения позиционирования имплантатов (обязательное условие отправки на печать). Доставка курьером. Хирургический отдел: <b>sg@articon.pro</b>.</p>
+    ${QC}`;
+
+  if(d==='aligners') return `
+    <div class="section-title">Объём коррекции</div>
+    <div class="triseg"><label><input type="radio" name="jaw">Только верхняя</label><label><input type="radio" name="jaw">Только нижняя</label><label><input type="radio" name="jaw" checked>Обе челюсти</label></div>
+    <div class="field" style="margin:14px 0 0"><label>Основные задачи коррекции</label><textarea rows="2" placeholder="Скученность фронта, диастема, дистопия 13…"></textarea></div>
+    <div class="section-title" style="margin-top:22px">Согласование set-up</div>
+    <div class="triseg"><label><input type="radio" name="su" checked>Telegram</label><label><input type="radio" name="su">WhatsApp</label></div>
+    <div class="section-title" style="margin-top:22px">Стратегия коррекции</div>
+    <div class="field" style="margin:0"><label>Наклонять</label>${tri('nak')}</div>
+    <div class="field" style="margin:12px 0 0"><label>Расширять</label>${tri('rass')}</div>
+    <div class="field" style="margin:12px 0 0"><label>Дистализировать</label>${tri('dist')}</div>
+    <div class="field" style="margin:12px 0 0"><label>Сепарация (IPR)</label>${tri('sep')}</div>
+    <div class="field" style="margin:12px 0 0"><label>Промежутки</label><div class="triseg"><label><input type="radio" name="gap">Закрыть все</label><label><input type="radio" name="gap">Оставить пространство</label></div></div>
+    <div class="section-title" style="margin-top:22px">Не двигать зубы / не ставить аттачменты</div>
+    ${fdiPills()}
+    <p class="hint">😀 Партнёр <b>EUROKAPPA</b> — элайнеры №1 в РФ (−25% врачам-партнёрам на 1-й кейс). Прочие пожелания (центральная линия, оверджет, овербайт, форма дуги, клыки) — в примечании. Ортодонтия: <b>ortho@articon.ru</b>.</p>`;
+
+  if(d==='plate') return `
+    <div class="section-title">Параметры аппарата</div>
+    <div class="row2">
+      <div class="field" style="margin:0"><label>Название аппарата</label><input placeholder="напр. пластинка с винтом"></div>
+      <div class="field" style="margin:0"><label>Цвет аппарата</label><input placeholder="напр. синий"></div>
+    </div>
+    <div class="row2" style="margin-top:12px">
+      <div class="field" style="margin:0"><label>Блёстки</label><select><option>Нет</option><option>Да</option></select></div>
+      <div class="field" style="margin:0"><label>Картинка для аппарата</label><input placeholder="напр. звезда / футбол"></div>
+    </div>
+    <div class="section-title" style="margin-top:22px">Активные элементы</div>
+    <div class="row2">
+      <div class="field" style="margin:0"><label>Винты</label><input placeholder="напр. расширяющий срединный"></div>
+      <div class="field" style="margin:0"><label>Пружины</label><input placeholder="напр. рукообразная на 13"></div>
+    </div>
+    <div class="section-title" style="margin-top:22px">Дополнительные элементы</div>
+    <div class="optgrid">
+      <label><input type="checkbox"> Накусочная площадка</label>
+      <label><input type="checkbox"> Окклюзионные накладки</label>
+      <label><input type="checkbox"> Заслонка для языка</label>
+      <label><input type="checkbox"> Бусинка</label>
+      <label><input type="checkbox"> Искусственные зубы</label>
+      <label><input type="checkbox"> Вестибулярная дуга</label>
+    </div>
+    <p class="hint">🧒 Детский съёмный аппарат — цвет и рисунок, чтобы ребёнок носил с удовольствием. Предоставьте оттиски / гипсовые модели / 3D-сканы челюстей и регистраты прикуса.</p>
+    ${QC}`;
+  return '';
+}
+function rightCol(d){
+  const dirName=DIRS.find(x=>x[0]===d)[2];
+  const showMat=(d==='ortho'||d==='surgery');
+  const matOpts=d==='surgery'
+    ? `<option>Фотополимер (печать)</option><option>Хирургический гайд (PMMA)</option>`
+    : `<option>Диоксид циркония</option><option>E.max / керамика</option><option>Металлокерамика</option><option>PMMA</option><option>Фотополимер (печать)</option>`;
+  const dropHint=d==='surgery'?'3D-сканы челюстей · КЛКТ · регистраты прикуса':(d==='aligners'?'3D-сканы · ОПТГ · фото · КЛКТ':'STL-сканы · фото оттенка · оттиски');
+  return `<div class="card" style="padding:22px">
+    <div class="section-title">Данные заказа</div>
+    <div class="field"><label>Направление</label><input value="${dirName}" disabled style="font-weight:700;color:var(--brand-dark);background:var(--brand-light);border-color:var(--brand-light)"></div>
+    <div class="field"><label>Пациент</label><input placeholder="Фамилия И.О."></div>
+    ${d==='surgery'?`<div class="row2"><div class="field" style="margin:0 0 15px"><label>Хирург</label><input placeholder="ФИО"></div><div class="field" style="margin:0 0 15px"><label>Ортопед</label><input placeholder="ФИО"></div></div>`:''}
+    <div class="field"><label>Клиника / город</label><select><option>Articon Clinic · Москва</option><option>Дентал-Студия · Москва</option><option>ДентаЛайн · СПб</option></select></div>
+    ${showMat?`<div class="field"><label>Материал</label><select>${matOpts}</select></div>`:''}
+    ${d==='surgery'
+      ? `<div class="field"><label>Дата и время операции</label><input type="datetime-local"></div>`
+      : `<div class="field"><label>Желаемый срок</label><input type="date"></div>`}
+    <div class="field"><label>Сканы / файлы</label><div onclick="toast('Файл прикреплён (демо)')" style="border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px">📎 Перетащите файлы или нажмите<br><span style="font-size:11.5px">${dropHint}</span></div></div>
+    <div class="field"><label>Примечание</label><textarea rows="2" placeholder="Особенности, пожелания…"></textarea></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitOrder()">Отправить заказ в ARTICON</button>
+  </div>`;
+}
+function viewNew(){
+  teethMap={}; activeCode=(activeDir==='surgery'?'I':'C'); pickedShade="A2";
+  const tabs=DIRS.map(([k,i,t,s])=>`<button class="dirtab ${activeDir===k?'on':''}" onclick="setDir('${k}')"><span class="di">${i}</span><span>${t}<small>${s}</small></span></button>`).join("");
+  const banner=activeDir==='ortho'
+    ? `<div class="banner hot"><span class="bi">⚡</span><div><b>Нужна коронка срочно? Выберите easyCROWN</b><p>Коронка за 1 день — 4 900 ₽, гарантия «готово к завтра». Просто отметьте зуб и приложите скан.</p></div></div>`:'';
+  return `
+  <div class="page-head"><div><h1>Новый заказ</h1><p>Электронный наряд ARTICON под выбранное направление — лаборатория получает всё сразу</p></div></div>
+  <div class="dirtabs">${tabs}</div>
+  ${banner}
+  <div class="form-grid">
+    <div class="card" style="padding:22px">${dirLeft(activeDir)}</div>
+    ${rightCol(activeDir)}
+  </div>${footer()}`;
+}
+function setDir(d){ activeDir=d; render(); window.scrollTo(0,0); }
+function setCode(c,el){ activeCode=c; document.querySelectorAll("#codes .code").forEach(x=>x.classList.remove("sel")); el.classList.add("sel"); }
+function tgT(n){
+  const cr=document.getElementById("c"+n), tw=document.getElementById("t"+n);
+  if(teethMap[n]===activeCode){ delete teethMap[n]; cr.textContent=""; tw.classList.remove("has"); }
+  else { teethMap[n]=activeCode; cr.textContent=activeCode; tw.classList.add("has"); }
+  const keys=Object.keys(teethMap);
+  document.getElementById("selsum").innerHTML=keys.length?keys.map(t=>`<span class="chip-t">${(t+'').replace(/(\d)(\d)/,'$1.$2')} · ${teethMap[t]}</span>`).join(""):(activeDir==='surgery'?"Отметьте зубы, где планируются импланты — кликните по формуле":"Зубы не выбраны — выберите код выше и кликните по зубу");
+}
+function submitOrder(){
+  const needTeeth=(activeDir==='ortho'||activeDir==='surgery');
+  if(needTeeth && !Object.keys(teethMap).length){ toast("Отметьте зуб на формуле"); return; }
+  const map={
+    ortho:   {service:"easyCROWN — коронка за 1 день",          material:"Диоксид циркония (monolith)",express:true, price:"4 900 ₽",  ready:"02.06 (1 день)",       file:"new_scan.stl"},
+    surgery: {service:"Хирургический шаблон (печать)",           material:"Фотополимер (печать)",       express:false,price:"по прайсу",ready:"+2 р.д. от подтверждения",file:"plan_CT.stl"},
+    aligners:{service:"Ортодонтия · элайнеры (EUROKAPPA)",       material:"Элайнеры EUROKAPPA",         express:false,price:"по прайсу",ready:"set-up на согласовании", file:"setup_v1.stl"},
+    plate:   {service:"Съёмный пластиночный аппарат (детский)",  material:"Базисная пластмасса",        express:false,price:"по прайсу",ready:"по сроку",              file:"jaw_scan.stl"},
+  }[activeDir];
+  const id="AR-"+(3072+orders.length-7);
+  orders.unshift({id,first:"Новый",last:"Пациент",clinic:"Articon Clinic",city:"Москва",doctor:"Лебедев К.А.",
+    service:map.service,teeth:Object.assign({},teethMap),shadeFrom:"A3",shade:pickedShade,material:map.material,
+    implant:"—",express:map.express,status:"new",tech:"—",date:"01.06",ready:map.ready,price:map.price,chat:[],files:[{n:map.file,d3:true}]});
+  toast("Заказ "+id+" отправлен в ARTICON ✓");
+  go("orders");
+}
+function viewBoard(){
+  const cols=[["new","Новые / приём"],["prog","CAD · Фрезцентр"],["ready","Готовы"]];
+  return `<div class="page-head"><div><h1>Производство</h1><p>Поток по стадиям · CAD → фрезцентр → керамика → отправка</p></div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+   ${cols.map(([k,l])=>`<div><div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px">${l} · ${orders.filter(o=>o.status===k).length}</div>
+     ${orders.filter(o=>o.status===k).map(o=>`<div class="card" style="padding:14px;margin-bottom:10px;cursor:pointer" onclick="openOrder('${o.id}')"><div class="num">${o.id}${o.express?'<span class="tag1day">⚡</span>':''}</div><div class="pt-name" style="margin-top:3px">${o.last} ${o.first[0]}.</div><div class="pt-sub">${o.service}</div><div class="pt-sub" style="margin-top:6px">${o.tech==='—'?'<span style="color:#c0392b">не назначен</span>':'👤 '+o.tech}</div></div>`).join("")||'<div style="color:#bbb;font-size:13px;padding:10px">пусто</div>'}
+   </div>`).join("")}
+  </div>${footer()}`;
+}
+function viewInvoices(){
+  const rows=orders.map(o=>`<div class="row" style="cursor:default;grid-template-columns:100px 1fr 130px 130px"><div class="num">${o.id}</div><div class="pt-name">${o.last} ${o.first[0]}. · ${o.service}</div><div class="v" style="font-weight:700">${o.price}</div><div><span class="badge ${o.status==='done'?'b-ready':'b-prog'}">${o.status==='done'?'Оплачен':'Ожидает'}</span></div></div>`).join("");
+  return `<div class="page-head"><div><h1>Счета и оплаты</h1><p>${role==='doctor'?'Ваши счета от ARTICON':'Счета клиникам · Москва и СПб'}</p></div></div>
+   <div class="kpis"><div class="kpi"><div class="v">${orders.length}</div><div class="l">Заказов за месяц</div></div><div class="kpi"><div class="v">1</div><div class="l">Оплачено</div></div><div class="kpi"><div class="v">${orders.length-1}</div><div class="l">Ожидает</div></div><div class="kpi"><div class="v">0</div><div class="l">Просрочено</div></div></div>
+   <div class="card list"><div class="row head" style="grid-template-columns:100px 1fr 130px 130px"><div>№</div><div>Работа</div><div>Сумма</div><div>Статус</div></div>${rows}</div>${footer()}`;
+}
+function viewClients(){
+  const cl=[["Articon Clinic","Москва","Лебедев К.А.","2 заказа"],["Дентал-Студия","Москва","Громова И.С.","2 заказа"],["ДентаЛайн","СПб","Никитин А.В.","1 заказ"]];
+  return `<div class="page-head"><div><h1>Клиники-партнёры</h1><p>Клиники Москвы и СПб в системе ARTICON</p></div><button class="btn btn-primary" onclick="toast('Ссылка-приглашение скопирована')">＋ Пригласить клинику</button></div>
+   <div class="card list"><div class="row head" style="grid-template-columns:1fr 110px 1fr 120px"><div>Клиника</div><div>Город</div><div>Врач</div><div>Заказы</div></div>
+   ${cl.map(([a,c,b,n])=>`<div class="row" style="cursor:default;grid-template-columns:1fr 110px 1fr 120px"><div class="pt-name">${a}</div><div class="pt-sub">${c}</div><div class="pt-sub">${b}</div><div class="pt-sub">${n}</div></div>`).join("")}</div>${footer()}`;
+}
+function footer(){ return `<div class="footer-note">Прототип ZubtexPWA для ARTICON DENTAL · Москва, Варшавское ш. 33с12 · СПб, Чкаловский пр. 50Б<br>lab@articon.pro · 8 (804) 700-77-02 · данные пациентов демонстрационные</div>`; }
+let tT;
+function toast(m){ const t=document.getElementById("toast"); document.getElementById("toast-msg").textContent=m; t.classList.add("show"); clearTimeout(tT); tT=setTimeout(()=>t.classList.remove("show"),2600); }
+</script>
+</body>
+</html>
